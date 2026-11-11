@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later · Copyright (C) 2026 Пантелеев Г.Д. -->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тренажёр по сетям: 21 билет</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<noscript><p style="padding:16px">Для работы тренажёра включите JavaScript.</p></noscript>
+<div class="wrap">
+  <header>
+    <h1>Сети и телекоммуникации — тренажёр по 21 билету</h1>
+    <p id="sub"></p>
+  </header>
+  <div class="tabs" role="tablist">
+    <button class="tab" id="tab-test" role="tab" aria-selected="true">Тест</button>
+    <button class="tab" id="tab-sch" role="tab" aria-selected="false">Схемы и шпаргалки</button>
+  </div>
+
+  <section id="v-test" class="panel">
+    <div class="box ctl">
+      <div class="label">Билеты</div>
+      <div class="chips" id="chips"></div>
+      <div class="row">
+        <button class="btn" id="b-order" aria-pressed="false">Вперемешку</button>
+        <button class="btn" id="b-wrong">Повторить ошибки</button>
+        <button class="btn" id="b-restart">Начать заново</button>
+        <button class="btn" id="b-reset">Сбросить статистику</button>
+      </div>
+    </div>
+    <div class="prog">
+      <div class="stat"><span id="s-pos"></span><span id="s-score"></span></div>
+      <div class="bar" id="bar"><i class="g"></i><i class="r"></i></div>
+    </div>
+    <div id="stage"></div>
+    <p class="hint">Клавиши: 1–4 — выбрать ответ, Enter — следующий вопрос. Нажмите на схему, чтобы увеличить.</p>
+  </section>
+
+  <section id="v-sch" class="panel" hidden></section>
+  <footer class="foot">Автор: Пантелеев Г.Д. · по материалам курса «Сети и телекоммуникации» (Шмелева О.В.)</footer>
+</div>
+<div class="lb" id="lb" role="dialog" aria-label="Увеличенная схема"><img id="lbimg" alt=""></div>
+
+<script src="js/helpers.js"></script>
+<script src="data/tickets.js"></script>
+<script src="data/cards.js"></script>
+<script src="data/questions/ticket-01.js"></script>
+<script src="data/questions/ticket-02.js"></script>
+<script src="data/questions/ticket-03.js"></script>
+<script src="data/questions/ticket-04.js"></script>
+<script src="data/questions/ticket-05.js"></script>
+<script src="data/questions/ticket-06.js"></script>
+<script src="data/questions/ticket-07.js"></script>
+<script src="data/questions/ticket-08.js"></script>
+<script src="data/questions/ticket-09.js"></script>
+<script src="data/questions/ticket-10.js"></script>
+<script src="data/questions/ticket-11.js"></script>
+<script src="data/questions/ticket-12.js"></script>
+<script src="data/questions/ticket-13.js"></script>
+<script src="data/questions/ticket-14.js"></script>
+<script src="data/questions/ticket-15.js"></script>
+<script src="data/questions/ticket-16.js"></script>
+<script src="data/questions/ticket-17.js"></script>
+<script src="data/questions/ticket-18.js"></script>
+<script src="data/questions/ticket-19.js"></script>
+<script src="data/questions/ticket-20.js"></script>
+<script src="data/questions/ticket-21.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

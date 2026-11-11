@@ -1,0 +1,15 @@
+{
+  "name": "network-exam-trainer",
+  "version": "1.0.0",
+  "description": "Тренажёр к экзамену по курсу «Сети и телекоммуникации»: 247 вопросов по 21 билету со схемами из лекций",
+  "author": "Пантелеев Г.Д.",
+  "private": true,
+  "license": "GPL-3.0-or-later",
+  "scripts": {
+    "check": "node tools/validate.js",
+    "start": "python3 -m http.server 8000"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
