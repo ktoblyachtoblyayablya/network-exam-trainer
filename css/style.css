@@ -1,35 +1,12 @@
 /* Тренажёр: одна колонка с карточкой вопроса; схемы — внутри ответа.
-   Светлая тема — белый фон, чёрный текст, оранжевые акценты.
-   Тёмная тема — тёмный фон, светлый текст, те же оранжевые акценты. */
-:root{
-  --bg:#ffffff; --surface:#ffffff; --soft:#fff6ee; --ink:#111111; --muted:#555555; --line:#f0dccb;
-  --accent:#c94a08;        /* заливки с белым текстом: шапка, кнопки, выбранные билеты (4.7:1) */
-  --accent-bright:#f07a1f; /* полосы и рамки */
-  --accent-soft:#fff1e6; --accent-ink:#b34006;
-  --mark:var(--accent-bright); --mark-soft:var(--accent-soft);
-  --ok:#1d7a47; --ok-soft:#e3f4ea; --bad:#b42318; --bad-soft:#fde8e4;
-  --font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-  --font-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
-  --r:12px; color-scheme:light;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#121212; --surface:#1c1c1c; --soft:#241a13; --ink:#f2f2f2; --muted:#b0b0b0; --line:#3a2c22;
-    --accent:#c94a08; --accent-bright:#f07a1f; --accent-soft:#2b1b10; --accent-ink:#ff9d57;
-    --ok:#5fd08f; --ok-soft:#12301f; --bad:#ff8a78; --bad-soft:#3a1a16; color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-    --bg:#121212; --surface:#1c1c1c; --soft:#241a13; --ink:#f2f2f2; --muted:#b0b0b0; --line:#3a2c22;
-    --accent:#c94a08; --accent-bright:#f07a1f; --accent-soft:#2b1b10; --accent-ink:#ff9d57;
-    --ok:#5fd08f; --ok-soft:#12301f; --bad:#ff8a78; --bad-soft:#3a1a16; color-scheme:dark;
-}
+   Файл одинаковый во всех тренажёрах; цвета курса — в css/theme.css. */
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.5}
 button{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.wrap{max-width:860px;margin:0 auto;padding:20px 16px 64px;display:flex;flex-direction:column;gap:16px}
+.wrap{max-width:860px;margin:0 auto;padding-block:20px 64px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));display:flex;flex-direction:column;gap:16px}
 header{background:var(--accent);color:#fff;border-radius:var(--r);padding:22px 22px 20px;border-bottom:5px solid var(--accent-bright);display:flex;flex-direction:column;gap:6px}
 header h1{font-size:1.6rem;line-height:1.2;margin:0;text-wrap:balance;font-weight:700;letter-spacing:-.01em}
 header p{margin:0;color:#fff;max-width:68ch}
@@ -92,6 +69,7 @@ header p{margin:0;color:#fff;max-width:68ch}
 table.ct{border-collapse:collapse;font-size:.88rem;width:100%;font-variant-numeric:tabular-nums}
 table.ct th,table.ct td{border-bottom:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
 table.ct th{font-size:.76rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:600}
+table.ct th,table.ct td{overflow-wrap:normal}
 table.ct td:first-child{font-family:var(--font-mono);font-weight:500;white-space:nowrap}
 .chain{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch}
 .node{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 10px;display:flex;flex-direction:column;min-width:96px;flex:1 1 120px}
@@ -130,11 +108,84 @@ svg.seq polygon{fill:var(--accent)}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px}
 .foot{border-top:1px solid var(--line);padding-top:12px;color:var(--muted);font-size:.85rem}
 /* лайтбокс */
-.lb{position:fixed;inset:0;background:rgba(5,10,14,.82);display:none;align-items:center;justify-content:center;padding:16px;z-index:10;cursor:zoom-out}
+.lb{position:fixed;inset:0;background:var(--lb-bg);display:none;align-items:center;justify-content:center;padding:16px;z-index:10;cursor:zoom-out}
 .lb.on{display:flex}
 .lb img{max-width:100%;max-height:100%;background:#fff;border-radius:8px;padding:8px}
 @media (max-width:520px){ .q{font-size:1.08rem} .qcard{padding:16px} header h1{font-size:1.35rem} }
 @media (prefers-reduced-motion: no-preference){ .opt,.btn,.chip{transition:background .12s,border-color .12s} }
-[hidden] {
-  display: none !important;
+/* ---------- билеты ---------- */
+.tickets{display:flex;flex-direction:column;gap:8px}
+details.ticket{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);border-left:4px solid var(--accent-bright)}
+details.ticket>summary{cursor:pointer;padding:12px 14px;display:flex;gap:10px;align-items:baseline;list-style:none}
+details.ticket>summary::-webkit-details-marker{display:none}
+details.ticket>summary::after{content:"▸";margin-left:auto;color:var(--accent-ink);transition:transform .15s}
+details.ticket[open]>summary::after{transform:rotate(90deg)}
+details.ticket .n,.pt .n{font-family:var(--font-mono);font-weight:600;color:var(--accent-ink);background:var(--mark-soft);border-radius:6px;padding:1px 8px;font-size:.85rem;white-space:nowrap}
+details.ticket .tt{font-weight:600;line-height:1.35}
+details.ticket[open]>summary{border-bottom:1px dashed var(--line)}
+.ans{padding:12px 16px 16px;display:flex;flex-direction:column;gap:10px;max-width:100%;overflow-wrap:anywhere}
+.ans p{margin:0;max-width:72ch}
+.ans h4{margin:6px 0 0;font-size:1rem;color:var(--accent-ink)}
+.ans ul,.ans ol{margin:0;padding-left:1.3em;max-width:72ch}
+.ans li{margin:2px 0}
+.ans .tip{background:var(--accent-soft);border-radius:8px;padding:8px 12px;font-size:.92rem}
+.ans .fig img{max-height:520px}
+.fig2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;align-items:start}
+pre.code{margin:0;font-family:var(--font-mono);font-size:.85rem;background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:10px 12px;overflow-x:auto;line-height:1.45}
+code{font-family:var(--font-mono);font-size:.9em;background:var(--soft);border-radius:4px;padding:0 4px}
+a{color:var(--accent-ink)}
+a.tlink{font-weight:600;text-decoration:none;border-bottom:1px solid currentColor}
+.more{margin:0}
+.pick{margin-top:4px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;line-height:1.7}
+.sub-k{font-family:var(--font-mono)}
+/* ---------- все билеты / печать ---------- */
+body.printing header:not(.phead),body.printing .tabs,body.printing .foot{display:none}
+body.printing .wrap{max-width:900px}
+.phead{border-bottom:4px solid var(--accent-bright);padding-bottom:8px}
+.phead h1{font-size:1.5rem;margin:0 0 4px;color:var(--accent-ink)}
+.phead p{margin:0;color:var(--muted)}
+.psec h2{font-size:1.35rem;border-bottom:3px solid var(--accent-bright);padding-bottom:4px;margin:24px 0 8px}
+.psec h2 small{font-size:.8rem;color:var(--muted);font-weight:500}
+.pt{break-inside:auto;border-top:1px solid var(--line);padding-top:10px;margin-top:10px}
+.pt h3{font-size:1.05rem;margin:0 0 6px;display:flex;gap:8px;align-items:baseline}
+.pt .ans{padding:0}
+@media print{
+  :root{--bg:#fff;--surface:#fff;--soft:var(--print-soft);--ink:#000;--muted:#444}
+  body{font-size:12.5px}
+  .tabs,.foot,.lb,#v-test,#v-sch,.box.ctl{display:none!important}
+  details.ticket{border:0;border-top:1px solid #ccc;border-radius:0}
+  details.ticket>summary::after{display:none}
+  .fig img{max-height:330px!important;cursor:default}
+  .pt h3,.fig,tr{break-inside:avoid}
+  .ans h4,.pt h3{break-after:avoid}
+  .psec{break-before:page}
+  .psec:first-of-type{break-before:auto}
+  a.tlink{border:0;color:inherit}
 }
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.gal .fig img{max-height:200px;width:100%;object-fit:contain}
+.see{margin:0;font-size:.92rem;color:var(--muted)}
+.see a.tlink{margin-right:2px}
+/* ---------- задания с вводом ответа ---------- */
+.kb{font-family:var(--font-mono);font-size:.75rem;font-weight:600;color:var(--accent-ink);border:1px solid var(--accent-bright);border-radius:6px;padding:0 6px;white-space:nowrap}
+.inp{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch}
+.inp .field{flex:1 1 340px;display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);padding:0 12px}
+.inp .field:focus-within{border-color:var(--accent)}
+.inp .field .pr{font-family:var(--font-mono);color:var(--muted);user-select:none}
+.inp input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--ink);font-family:var(--font-mono);font-size:1rem;padding:10px 0}
+.inp .field.ok{border-color:var(--ok);background:var(--ok-soft)}
+.inp .field.bad{border-color:var(--bad);background:var(--bad-soft)}
+.inp .field.ok input,.inp .field.bad input{color:var(--ink)}
+.inp .btn{padding:8px 14px}
+.qhint{margin:0;font-size:.85rem;color:var(--muted)}
+.rightans{margin:0;display:flex;flex-wrap:wrap;gap:6px;align-items:baseline}
+.rightans code{font-size:.95rem;padding:2px 6px;border:1px solid var(--line)}
+.alts{margin:0;font-size:.88rem;color:var(--muted)}
+.alts code{font-size:.85rem}
+.yours{margin:0;font-size:.88rem;color:var(--muted)}
+.yours code{text-decoration:line-through;text-decoration-color:var(--bad)}
+.chip .cnt{opacity:.75}
+
+/* формулы в билетах */
+.fx{font-family:"Cambria Math","STIX Two Math","Times New Roman",serif;font-style:italic;font-size:1.06rem;text-align:center;margin:8px 0;padding:6px 10px;background:var(--soft);border-radius:8px;overflow-x:auto;line-height:1.7}
+.fx sub,.fx sup{font-size:.72em}
